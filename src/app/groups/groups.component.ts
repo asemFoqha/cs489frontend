@@ -1,15 +1,15 @@
-import {Component, inject, OnDestroy, signal} from '@angular/core';
-import {Title} from "@angular/platform-browser";
-import {MatDialog} from "@angular/material/dialog";
-import {catchError, Subscription, throwError} from "rxjs";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatIconModule} from "@angular/material/icon";
-import {MatDividerModule} from "@angular/material/divider";
-import {MatMiniFabButton} from "@angular/material/button";
-import {GroupsService} from "./services/groups.service";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {GroupCardComponent} from "./group-card.component";
-import {AddGroupDialogComponent} from "./add-group-dialog.component";
+import { Component, inject, OnDestroy, signal } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
+import { catchError, Subscription, throwError } from 'rxjs';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatMiniFabButton } from '@angular/material/button';
+import { GroupsService } from './services/groups.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { GroupCardComponent } from './group-card.component';
+import { AddGroupDialogComponent } from './add-group-dialog.component';
 
 @Component({
   selector: 'app-groups',
@@ -23,9 +23,9 @@ import {AddGroupDialogComponent} from "./add-group-dialog.component";
   ],
   template: `
     @if ($isLoading()) {
-      <div class="fixed full-width">
-        <mat-progress-bar mode="indeterminate"/>
-      </div>
+    <div class="fixed full-width">
+      <mat-progress-bar mode="indeterminate" />
+    </div>
     }
 
     <div class="screen-margin flex column">
@@ -35,32 +35,23 @@ import {AddGroupDialogComponent} from "./add-group-dialog.component";
           <mat-icon>add</mat-icon>
         </button>
       </div>
-      <mat-divider/>
+      <mat-divider />
       @if (groupsService.$groups().length) {
-        <div
-          class="gap-4 grid mt-2"
-        >
-          @for (group of groupsService.$groups(); track group._id) {
-            <app-group-card
-              [$group]="group"
-            />
-          }
-        </div>
-      } @else {
-        @if (!$isLoading()) {
-          <div class="mt-2">
-            <h1 class="text-center">You are not in any group yet!</h1>
-          </div>
+      <div class="gap-4 grid mt-2">
+        @for (group of groupsService.$groups(); track group._id) {
+        <app-group-card [$group]="group" />
         }
-      }
-
+      </div>
+      } @else { @if (!$isLoading()) {
+      <div class="mt-2">
+        <h1 class="text-center">You are not in any group yet!</h1>
+      </div>
+      } }
     </div>
-
   `,
-  styles: ``
+  styles: ``,
 })
 export class GroupsComponent implements OnDestroy {
-
   #title = inject(Title);
   #dialog = inject(MatDialog);
   groupsService = inject(GroupsService);
@@ -101,5 +92,4 @@ export class GroupsComponent implements OnDestroy {
   ngOnDestroy() {
     this.getGroups$?.unsubscribe();
   }
-
 }

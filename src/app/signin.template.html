@@ -1,0 +1,82 @@
+@if ($isLoading()) {
+    <div class="fixed full-width">
+      <mat-progress-bar mode="indeterminate"/>
+    </div>
+  }
+
+  <div class="flex justify-center screen-margin">
+    <mat-card class="form-container">
+      <mat-card-content>
+        <form
+          class="flex column"
+          [formGroup]="form"
+          (ngSubmit)="handleSubmit()"
+        >
+          <mat-form-field class="mb-1">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+              placeholder="Ex. pat@example.com"
+            />
+            @if (email.errors?.['email'] && !email.errors?.['required']) {
+              <mat-error
+
+              >
+                Please enter a valid <strong>email address</strong>
+              </mat-error>
+            }
+
+            @if (email.errors?.['required']) {
+              <mat-error>
+                Email is <strong>required</strong>
+              </mat-error>
+            }
+
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password"/>
+            @if (password.errors?.['minlength'] && !password.errors?.['required']) {
+              <mat-error
+
+              >
+                The minimum length for the password is <strong>6</strong>
+              </mat-error>
+            }
+
+            @if (password.errors?.['required']) {
+              <mat-error>
+                Password is <strong>required</strong>
+              </mat-error>
+            }
+
+          </mat-form-field>
+          <mat-checkbox color="primary" formControlName="isRemember"
+          >Remember me
+          </mat-checkbox
+          >
+          <div class="flex justify-center">
+            @if ($error()) {
+              <mat-error>
+                {{ $error() }}
+              </mat-error>
+            }
+
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          [disabled]="form.invalid || $isLoading()"
+          mat-raised-button
+          color="primary"
+          type="submit"
+          (click)="handleSubmit()"
+        >
+          Sign in
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
